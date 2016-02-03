@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "anotherdusts:crusher" },
+    "facing=south": { "model": "anotherdusts:crusher", "y": 180 },
+    "facing=west":  { "model": "anotherdusts:crusher", "y": 270 },
+    "facing=east":  { "model": "anotherdusts:crusher", "y": 90 }
+  }
+}
