@@ -41,6 +41,9 @@ public class ModAnotherDusts {
 
     public final static AnotherDustsTab tab = new AnotherDustsTab();
 
+    public final static Item iron_dust = new ItemDust().setColor(14794665).setUnlocalizedName("iron_dust").setCreativeTab(tab);
+    public final static Item gold_dust = new ItemDust().setColor(16444747).setUnlocalizedName("gold_dust").setCreativeTab(tab);
+
     public final static Block crusher = new BlockCrusher().setUnlocalizedName("crusher").setCreativeTab(tab);
     public final static Block crusher_on = new BlockCrusher().setUnlocalizedName("crusher_on").setLightLevel(0.875F);
 
@@ -53,29 +56,26 @@ public class ModAnotherDusts {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        registerDust(event, "iron_dust", 14794665, Blocks.iron_ore, Items.iron_ingot);
-        registerDust(event, "gold_dust", 16444747, Blocks.gold_ore, Items.gold_ingot);
+        registerDust(event, iron_dust, Items.iron_ingot);
+        registerDust(event, gold_dust, Items.gold_ingot);
 
         registerBlock(event, crusher);
         registerBlock(event, crusher_on);
-
         GameRegistry.registerTileEntity(TileEntityCrusher.class, "anotherDustsCrusher");
-    }
 
-    private void registerDust(FMLInitializationEvent event, String name, int color, Block ore, Item ingot) {
-        Item dust = new ItemDust().setColor(color).setUnlocalizedName(name).setCreativeTab(tab);
-
-        registerItem(event, dust);
-
-        OreDictionary.registerOre(dust.getUnlocalizedName().substring(5), dust);
-        GameRegistry.addSmelting(dust, new ItemStack(ingot), 1f);
-
-        CrusherRegistry.registerRecipe(ore, dust);
+        CrusherRegistry.registerRecipe(Blocks.iron_ore, iron_dust);
+        CrusherRegistry.registerRecipe(Blocks.gold_ore, gold_dust);
     }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
 
+    }
+
+    private void registerDust(FMLInitializationEvent event, Item dust, Item ingot) {
+        registerItem(event, dust);
+        GameRegistry.addSmelting(dust, new ItemStack(ingot), 1f);
+        OreDictionary.registerOre(getItemName(dust), dust);
     }
 
     private void registerBlock(FMLInitializationEvent event, Block block) {
@@ -87,14 +87,18 @@ public class ModAnotherDusts {
     }
 
     private void registerItem(FMLInitializationEvent event, Item item) {
-        GameRegistry.registerItem(item, item.getUnlocalizedName().substring(5));
+        GameRegistry.registerItem(item, getItemName(item));
         if (event.getSide() == Side.CLIENT) {
             registerItemModel(item);
         }
     }
 
     private void registerItemModel(Item item) {
-        ModelResourceLocation resourceLocation = new ModelResourceLocation(MODID + ":" + item.getUnlocalizedName().substring(5), "inventory");
+        ModelResourceLocation resourceLocation = new ModelResourceLocation(MODID + ":" + getItemName(item), "inventory");
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, resourceLocation);
+    }
+
+    private String getItemName(Item dust) {
+        return dust.getUnlocalizedName().substring(5);
     }
 }
