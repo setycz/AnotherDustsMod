@@ -11,21 +11,33 @@ import java.util.Map;
  * Created by setyc on 30.01.2016.
  */
 public final class CrusherRegistry {
-    private final static Map<Block, Item> recipes = new THashMap<Block, Item>();
+    static class RegisteredItem {
+        private final Item dust;
+        private final int amount;
+        private final int meta;
 
-    public static void registerRecipe(Block oreBlock, Item dust) {
-        recipes.put(oreBlock, dust);
+        public RegisteredItem(Item item, int amount, int meta) {
+            this.dust = item;
+            this.amount = amount;
+            this.meta = meta;
+        }
+
+        public ItemStack createStack() {
+            return new ItemStack(dust, amount, meta);
+        }
     }
 
-    public static Item getItemForBlock(Block oreBlock) {
-        return recipes.getOrDefault(oreBlock, null);
+    private final static Map<Block, RegisteredItem> recipes = new THashMap<Block, RegisteredItem>();
+
+    public static void registerRecipe(Block ore, Item resultItem, int resultItemMeta, int resultAmount) {
+        recipes.put(ore, new RegisteredItem(resultItem, resultAmount, resultItemMeta));
     }
 
     public static ItemStack createItemsForBlock(Block oreBlock) {
-        Item dustItem = getItemForBlock(oreBlock);
-        if (dustItem == null) {
+        RegisteredItem registeredItem = recipes.getOrDefault(oreBlock, null);
+        if (registeredItem == null) {
             return null;
         }
-        return new ItemStack(dustItem, 2);
+        return registeredItem.createStack();
     }
 }

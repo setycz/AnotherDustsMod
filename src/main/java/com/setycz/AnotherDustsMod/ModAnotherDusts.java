@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
@@ -63,8 +64,14 @@ public class ModAnotherDusts {
         registerBlock(event, crusher_on);
         GameRegistry.registerTileEntity(TileEntityCrusher.class, "anotherDustsCrusher");
 
-        CrusherRegistry.registerRecipe(Blocks.iron_ore, iron_dust);
-        CrusherRegistry.registerRecipe(Blocks.gold_ore, gold_dust);
+        CrusherRegistry.registerRecipe(Blocks.iron_ore, iron_dust, 0, 2);
+        CrusherRegistry.registerRecipe(Blocks.gold_ore, gold_dust, 0, 2);
+        CrusherRegistry.registerRecipe(Blocks.coal_ore, Items.coal, 0, 2);
+        CrusherRegistry.registerRecipe(Blocks.lapis_ore, Items.dye, EnumDyeColor.BLUE.getDyeDamage(), 9);
+        CrusherRegistry.registerRecipe(Blocks.diamond_ore, Items.diamond, 0, 2);
+        CrusherRegistry.registerRecipe(Blocks.emerald_ore, Items.emerald, 0, 2);
+        CrusherRegistry.registerRecipe(Blocks.quartz_ore, Items.quartz, 0, 2);
+        CrusherRegistry.registerRecipe(Blocks.redstone_ore, Items.redstone, 0, 6);
     }
 
     @EventHandler
