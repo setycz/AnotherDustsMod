@@ -3,27 +3,73 @@ package com.setycz.AnotherDustsMod.Crusher;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemSaddle;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Created by setyc on 29.01.2016.
  */
 public class ContainerCrusher extends Container {
 
-    private final IInventory tileEntity;
+    private final IInventory crusherInventory;
     private int playerInventoryStart;
+    private int progress;
+    private int energy;
+    private int energyCapacity;
 
-    public ContainerCrusher(InventoryPlayer playerInventory, IInventory tileEntity) {
-        this.tileEntity = tileEntity;
+    public ContainerCrusher(InventoryPlayer playerInventory, IInventory crusherInventory) {
+        this.crusherInventory = crusherInventory;
 
-        this.addSlotToContainer(new Slot(tileEntity, 0, 56, 17));
-        this.addSlotToContainer(new Slot(tileEntity, 1, 56, 53));
-        this.addSlotToContainer(new Slot(tileEntity, 2, 116, 35));
+        this.addSlotToContainer(new Slot(crusherInventory, 0, 56, 17));
+        this.addSlotToContainer(new Slot(crusherInventory, 1, 56, 53));
+        this.addSlotToContainer(new Slot(crusherInventory, 2, 116, 35));
 
         playerInventoryStart = addPlayerInventory(playerInventory);
+    }
+
+    public void onCraftGuiOpened(ICrafting listener)
+    {
+        super.onCraftGuiOpened(listener);
+        listener.sendAllWindowProperties(this, crusherInventory);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void updateProgressBar(int id, int data)
+    {
+        this.crusherInventory.setField(id, data);
+    }
+
+    public void detectAndSendChanges()
+    {
+        super.detectAndSendChanges();
+
+        for (int i = 0; i < this.crafters.size(); ++i)
+        {
+            ICrafting icrafting = this.crafters.get(i);
+
+            if (this.progress != this.crusherInventory.getField(2))
+            {
+                icrafting.sendProgressBarUpdate(this, 2, this.crusherInventory.getField(2));
+            }
+
+            if (this.energy != this.crusherInventory.getField(0))
+            {
+                icrafting.sendProgressBarUpdate(this, 0, this.crusherInventory.getField(0));
+            }
+
+            if (this.energyCapacity != this.crusherInventory.getField(1))
+            {
+                icrafting.sendProgressBarUpdate(this, 1, this.crusherInventory.getField(1));
+            }
+        }
+
+        this.progress = this.crusherInventory.getField(2);
+        this.energy = this.crusherInventory.getField(0);
+        this.energyCapacity = this.crusherInventory.getField(1);
     }
 
     private int addPlayerInventory(InventoryPlayer playerInventory) {
@@ -47,7 +93,7 @@ public class ContainerCrusher extends Container {
 
     @Override
     public boolean canInteractWith(EntityPlayer playerIn) {
-        return tileEntity.isUseableByPlayer(playerIn);
+        return crusherInventory.isUseableByPlayer(playerIn);
     }
 
     @Override

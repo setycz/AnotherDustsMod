@@ -188,7 +188,7 @@ public class TileEntityCrusher extends TileEntityInventory implements ITickable 
     private void progress() {
         progress++;
     }
-    
+
     private boolean isFinished() {
         return progress >= NEEDED_PROGRESS;
     }
