@@ -133,11 +133,7 @@ public class TileEntityCrusher extends TileEntityInventory implements ITickable 
             return false;
         }
 
-        if (outputItemStack.stackSize + resultItemStack.stackSize > getInventoryStackLimit()) {
-            return false;
-        }
-
-        return true;
+        return outputItemStack.stackSize + resultItemStack.stackSize <= getInventoryStackLimit();
     }
 
     private void setIsWorking(boolean value) {
@@ -178,11 +174,7 @@ public class TileEntityCrusher extends TileEntityInventory implements ITickable 
 
         Block inputBlock = Block.getBlockFromItem(inputItem);
         ItemStack resultItemStack = CrusherRegistry.createItemsForBlock(inputBlock);
-        if (resultItemStack == null) {
-            return false;
-        }
-
-        return true;
+        return resultItemStack != null;
     }
 
     private void progress() {

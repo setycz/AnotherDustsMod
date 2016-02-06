@@ -47,22 +47,14 @@ public class ContainerCrusher extends Container {
     {
         super.detectAndSendChanges();
 
-        for (int i = 0; i < this.crafters.size(); ++i)
-        {
-            ICrafting icrafting = this.crafters.get(i);
-
-            if (this.progress != this.crusherInventory.getField(2))
-            {
+        for (ICrafting icrafting : this.crafters) {
+            if (this.progress != this.crusherInventory.getField(2)) {
                 icrafting.sendProgressBarUpdate(this, 2, this.crusherInventory.getField(2));
             }
-
-            if (this.energy != this.crusherInventory.getField(0))
-            {
+            if (this.energy != this.crusherInventory.getField(0)) {
                 icrafting.sendProgressBarUpdate(this, 0, this.crusherInventory.getField(0));
             }
-
-            if (this.energyCapacity != this.crusherInventory.getField(1))
-            {
+            if (this.energyCapacity != this.crusherInventory.getField(1)) {
                 icrafting.sendProgressBarUpdate(this, 1, this.crusherInventory.getField(1));
             }
         }
