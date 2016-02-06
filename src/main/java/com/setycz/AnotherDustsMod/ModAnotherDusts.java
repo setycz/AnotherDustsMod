@@ -63,6 +63,10 @@ public class ModAnotherDusts {
         registerBlock(event, crusher);
         registerBlock(event, crusher_on);
         GameRegistry.registerTileEntity(TileEntityCrusher.class, "anotherDustsCrusher");
+        GameRegistry.addRecipe(
+                new ItemStack(crusher),
+                "FFF", "FFF", "PRP",
+                'F', Items.flint, 'P', Blocks.piston, 'R', Blocks.furnace);
 
         CrusherRegistry.registerRecipe(Blocks.iron_ore, iron_dust, 0, 2);
         CrusherRegistry.registerRecipe(Blocks.gold_ore, gold_dust, 0, 2);
