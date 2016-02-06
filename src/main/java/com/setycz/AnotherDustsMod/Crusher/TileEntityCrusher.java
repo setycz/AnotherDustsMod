@@ -140,10 +140,6 @@ public class TileEntityCrusher extends TileEntityInventory implements ITickable 
         return true;
     }
 
-    private void progress() {
-        progress++;
-    }
-
     private void setIsWorking(boolean value) {
         BlockCrusher.setState(value, worldObj, pos);
     }
@@ -169,10 +165,6 @@ public class TileEntityCrusher extends TileEntityInventory implements ITickable 
         return TileEntityFurnace.getItemBurnTime(fuelItemStack) > 0;
     }
 
-    private boolean hasEnergy() {
-        return energy > 0;
-    }
-
     private boolean canProcessCurrentItem() {
         ItemStack inputItemStack = getStackInSlot(inputStackIndex);
         if (inputItemStack == null || inputItemStack.stackSize <= 0) {
@@ -193,8 +185,16 @@ public class TileEntityCrusher extends TileEntityInventory implements ITickable 
         return true;
     }
 
-    public boolean isFinished() {
+    private void progress() {
+        progress++;
+    }
+    
+    private boolean isFinished() {
         return progress >= NEEDED_PROGRESS;
+    }
+
+    public boolean hasEnergy() {
+        return energy > 0;
     }
 
     public int getEnergyCapacity() {
@@ -213,7 +213,7 @@ public class TileEntityCrusher extends TileEntityInventory implements ITickable 
         return NEEDED_PROGRESS;
     }
 
-    public boolean isProgressing() {
+    private boolean isProgressing() {
         return progress > 0;
     }
 

@@ -37,8 +37,10 @@ public class GuiCrusher extends GuiContainer {
 
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
-        int k = this.getBurnLeftScaled(13);
-        this.drawTexturedModalRect(i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
+        if (crusherInventory.hasEnergy()) {
+            int k = this.getBurnLeftScaled(13);
+            this.drawTexturedModalRect(i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
+        }
         int l = this.getCookProgressScaled(24);
         this.drawTexturedModalRect(i + 79, j + 34, 176, 14, l + 1, 16);
     }
