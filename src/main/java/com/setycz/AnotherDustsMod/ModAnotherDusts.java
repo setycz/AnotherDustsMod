@@ -1,6 +1,7 @@
 package com.setycz.AnotherDustsMod;
 
 import com.setycz.AnotherDustsMod.Crusher.BlockCrusher;
+import com.setycz.AnotherDustsMod.Crusher.BlockCrusherOn;
 import com.setycz.AnotherDustsMod.Crusher.CrusherRegistry;
 import com.setycz.AnotherDustsMod.Crusher.TileEntityCrusher;
 import com.setycz.AnotherDustsMod.Dust.ItemDust;
@@ -46,7 +47,7 @@ public class ModAnotherDusts {
     public final static Item gold_dust = new ItemDust().setColor(16444747).setUnlocalizedName("gold_dust").setCreativeTab(tab);
 
     public final static Block crusher = new BlockCrusher().setUnlocalizedName("crusher").setCreativeTab(tab);
-    public final static Block crusher_on = new BlockCrusher().setUnlocalizedName("crusher_on").setLightLevel(0.875F);
+    public final static Block crusher_on = new BlockCrusherOn().setUnlocalizedName("crusher_on").setLightLevel(0.875F);
 
     public static TileEntityGuiHandler guiHandler = new TileEntityGuiHandler();
 

@@ -1,7 +1,7 @@
 package com.setycz.AnotherDustsMod.Crusher;
 
-import com.setycz.AnotherDustsMod.ModAnotherDusts;
 import com.setycz.AnotherDustsMod.InventoryBlock.BlockInventory;
+import com.setycz.AnotherDustsMod.ModAnotherDusts;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
