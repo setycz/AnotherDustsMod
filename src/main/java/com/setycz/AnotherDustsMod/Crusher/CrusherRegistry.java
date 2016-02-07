@@ -5,39 +5,30 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by setyc on 30.01.2016.
  */
 public final class CrusherRegistry {
-    static class RegisteredItem {
-        private final Item dust;
-        private final int amount;
-        private final int meta;
 
-        public RegisteredItem(Item item, int amount, int meta) {
-            this.dust = item;
-            this.amount = amount;
-            this.meta = meta;
-        }
-
-        public ItemStack createStack() {
-            return new ItemStack(dust, amount, meta);
-        }
-    }
-
-    private final static Map<Block, RegisteredItem> recipes = new THashMap<Block, RegisteredItem>();
+    private final static Map<Block, CrusherRegistryItem> recipes = new THashMap<Block, CrusherRegistryItem>();
 
     public static void registerRecipe(Block ore, Item resultItem, int resultItemMeta, int resultAmount) {
-        recipes.put(ore, new RegisteredItem(resultItem, resultAmount, resultItemMeta));
+        recipes.put(ore, new CrusherRegistryItem(ore, resultItem, resultAmount, resultItemMeta));
     }
 
     public static ItemStack createItemsForBlock(Block oreBlock) {
-        RegisteredItem registeredItem = recipes.getOrDefault(oreBlock, null);
+        CrusherRegistryItem registeredItem = recipes.getOrDefault(oreBlock, null);
         if (registeredItem == null) {
             return null;
         }
         return registeredItem.createStack();
+    }
+
+    public static List<CrusherRegistryItem> getAllRecipes() {
+        return new ArrayList<CrusherRegistryItem>(recipes.values());
     }
 }
