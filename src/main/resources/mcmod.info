@@ -5,11 +5,11 @@
   "description": "Early game ore doubling.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "http://minecraft.curseforge.com/projects/another-dusts",
   "updateUrl": "",
   "authorList": ["SetyCz"],
   "credits": "The Forge and FML guys, for making this example",
-  "logoFile": "",
+  "logoFile": "assets/anotherdusts/logo.png",
   "screenshots": [],
   "dependencies": []
 }
