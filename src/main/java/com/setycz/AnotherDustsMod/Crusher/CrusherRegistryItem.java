@@ -9,12 +9,14 @@ import net.minecraft.item.ItemStack;
  */
 public class CrusherRegistryItem {
     private final Block ore;
+    private final int oreMeta;
     private final Item dust;
     private final int amount;
     private final int meta;
 
-    public CrusherRegistryItem(Block ore, Item item, int amount, int meta) {
+    public CrusherRegistryItem(Block ore, int oreMeta, Item item, int amount, int meta) {
         this.ore = ore;
+        this.oreMeta = oreMeta;
         this.dust = item;
         this.amount = amount;
         this.meta = meta;
@@ -26,5 +28,9 @@ public class CrusherRegistryItem {
 
     public Block getOre() {
         return ore;
+    }
+
+    public int getOreMeta() {
+        return oreMeta;
     }
 }

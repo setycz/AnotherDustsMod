@@ -20,7 +20,7 @@ public class CrusherRecipeMaker {
         List<CrusherRecipe> recipes = new ArrayList<CrusherRecipe>();
         for (CrusherRegistryItem recipe : CrusherRegistry.getAllRecipes()) {
             recipes.add(new CrusherRecipe(
-                    stackHelper.getSubtypes(new ItemStack(recipe.getOre())),
+                    stackHelper.getSubtypes(new ItemStack(recipe.getOre(), 1, recipe.getOreMeta())),
                     recipe.createStack()
             ));
         }

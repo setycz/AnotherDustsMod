@@ -14,6 +14,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -37,6 +38,7 @@ public class ModAnotherDusts {
     public static final String MODID = "anotherdusts";
     public static final String VERSION = "1.1";
     public static final String MODNAME = "Another Dusts";
+    public static final String TCONSTRUCT = "tconstruct";
 
     @Mod.Instance(MODID)
     public static ModAnotherDusts instance;
@@ -49,6 +51,9 @@ public class ModAnotherDusts {
     public final static Block crusher = new BlockCrusher().setUnlocalizedName("crusher").setCreativeTab(tab);
     public final static Block crusher_on = new BlockCrusherOn().setUnlocalizedName("crusher_on").setLightLevel(0.875F);
 
+    public final static Item cobalt_dust = new ItemDust().setColor(2306186).setUnlocalizedName("cobalt_dust").setCreativeTab(tab);
+    public final static Item ardite_dust = new ItemDust().setColor(11019543).setUnlocalizedName("ardite_dust").setCreativeTab(tab);
+
     public static TileEntityGuiHandler guiHandler = new TileEntityGuiHandler();
 
     @EventHandler
@@ -58,8 +63,8 @@ public class ModAnotherDusts {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        registerDust(event, iron_dust, Items.iron_ingot);
-        registerDust(event, gold_dust, Items.gold_ingot);
+        registerDust(event, iron_dust, Items.iron_ingot, 0);
+        registerDust(event, gold_dust, Items.gold_ingot, 0);
 
         registerBlock(event, crusher);
         registerBlock(event, crusher_on);
@@ -69,14 +74,23 @@ public class ModAnotherDusts {
                 "FFF", "FFF", "PRP",
                 'F', Items.flint, 'P', Blocks.piston, 'R', Blocks.furnace);
 
-        CrusherRegistry.registerRecipe(Blocks.iron_ore, iron_dust, 0, 2);
-        CrusherRegistry.registerRecipe(Blocks.gold_ore, gold_dust, 0, 2);
-        CrusherRegistry.registerRecipe(Blocks.coal_ore, Items.coal, 0, 2);
-        CrusherRegistry.registerRecipe(Blocks.lapis_ore, Items.dye, EnumDyeColor.BLUE.getDyeDamage(), 9);
-        CrusherRegistry.registerRecipe(Blocks.diamond_ore, Items.diamond, 0, 2);
-        CrusherRegistry.registerRecipe(Blocks.emerald_ore, Items.emerald, 0, 2);
-        CrusherRegistry.registerRecipe(Blocks.quartz_ore, Items.quartz, 0, 2);
-        CrusherRegistry.registerRecipe(Blocks.redstone_ore, Items.redstone, 0, 6);
+        CrusherRegistry.registerRecipe(Blocks.iron_ore, 0, iron_dust, 0, 2);
+        CrusherRegistry.registerRecipe(Blocks.gold_ore, 0, gold_dust, 0, 2);
+        CrusherRegistry.registerRecipe(Blocks.coal_ore, 0, Items.coal, 0, 2);
+        CrusherRegistry.registerRecipe(Blocks.lapis_ore, 0, Items.dye, EnumDyeColor.BLUE.getDyeDamage(), 9);
+        CrusherRegistry.registerRecipe(Blocks.diamond_ore, 0, Items.diamond, 0, 2);
+        CrusherRegistry.registerRecipe(Blocks.emerald_ore, 0, Items.emerald, 0, 2);
+        CrusherRegistry.registerRecipe(Blocks.quartz_ore, 0, Items.quartz, 0, 2);
+        CrusherRegistry.registerRecipe(Blocks.redstone_ore, 0, Items.redstone, 0, 6);
+
+        if(Loader.isModLoaded(TCONSTRUCT)) {
+            Item tIngots = GameRegistry.findItem(TCONSTRUCT, "ingots");
+            registerDust(event, cobalt_dust, tIngots, 0);
+            registerDust(event, ardite_dust, tIngots, 1);
+            Block tOre = GameRegistry.findBlock(TCONSTRUCT, "ore");
+            CrusherRegistry.registerRecipe(tOre, 0, cobalt_dust, 0, 2);
+            CrusherRegistry.registerRecipe(tOre, 1, ardite_dust, 0, 2);
+        }
     }
 
     @EventHandler
@@ -84,9 +98,9 @@ public class ModAnotherDusts {
 
     }
 
-    private void registerDust(FMLInitializationEvent event, Item dust, Item ingot) {
+    private void registerDust(FMLInitializationEvent event, Item dust, Item ingot, int ingotMeta) {
         registerItem(event, dust);
-        GameRegistry.addSmelting(dust, new ItemStack(ingot), 1f);
+        GameRegistry.addSmelting(dust, new ItemStack(ingot, 1, ingotMeta), 1f);
         OreDictionary.registerOre(getItemName(dust), dust);
     }
 

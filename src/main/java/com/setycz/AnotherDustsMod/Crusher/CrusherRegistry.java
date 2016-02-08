@@ -13,22 +13,22 @@ import java.util.Map;
  * Created by setyc on 30.01.2016.
  */
 public final class CrusherRegistry {
+    private final static List<CrusherRegistryItem> recipes = new ArrayList<CrusherRegistryItem>();
 
-    private final static Map<Block, CrusherRegistryItem> recipes = new THashMap<Block, CrusherRegistryItem>();
-
-    public static void registerRecipe(Block ore, Item resultItem, int resultItemMeta, int resultAmount) {
-        recipes.put(ore, new CrusherRegistryItem(ore, resultItem, resultAmount, resultItemMeta));
+    public static void registerRecipe(Block ore, int blockMeta, Item resultItem, int resultItemMeta, int resultAmount) {
+        recipes.add(new CrusherRegistryItem(ore, blockMeta, resultItem, resultAmount, resultItemMeta));
     }
 
-    public static ItemStack createItemsForBlock(Block oreBlock) {
-        CrusherRegistryItem registeredItem = recipes.getOrDefault(oreBlock, null);
-        if (registeredItem == null) {
-            return null;
+    public static ItemStack createItemsForBlock(Block oreBlock, int oreMeta) {
+        for (CrusherRegistryItem registeredItem : recipes) {
+            if (registeredItem.getOre().equals(oreBlock) && registeredItem.getOreMeta() == oreMeta) {
+                return registeredItem.createStack();
+            }
         }
-        return registeredItem.createStack();
+        return null;
     }
 
     public static List<CrusherRegistryItem> getAllRecipes() {
-        return new ArrayList<CrusherRegistryItem>(recipes.values());
+        return recipes;
     }
 }

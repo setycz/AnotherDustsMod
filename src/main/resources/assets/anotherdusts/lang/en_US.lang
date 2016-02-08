@@ -3,3 +3,5 @@ tile.crusher.name=Crusher
 gui.crusher.name=Crusher
 item.iron_dust.name=Iron Dust
 item.gold_dust.name=Gold Dust
+item.cobalt_dust.name=Cobalt Dust
+item.ardite_dust.name=Ardite Dust

@@ -112,7 +112,7 @@ public class TileEntityCrusher extends TileEntityInventory implements ITickable 
         }
 
         ItemStack outputItemStack = getStackInSlot(outputStackIndex);
-        ItemStack resultItemStack = CrusherRegistry.createItemsForBlock(Block.getBlockFromItem(processedItemStack.getItem()));
+        ItemStack resultItemStack = CrusherRegistry.createItemsForBlock(Block.getBlockFromItem(processedItemStack.getItem()), processedItemStack.getMetadata());
         if (outputItemStack == null) {
             setInventorySlotContents(outputStackIndex, resultItemStack);
         }
@@ -128,7 +128,7 @@ public class TileEntityCrusher extends TileEntityInventory implements ITickable 
         }
 
         ItemStack inputItemStack = getStackInSlot(inputStackIndex);
-        ItemStack resultItemStack = CrusherRegistry.createItemsForBlock(Block.getBlockFromItem(inputItemStack.getItem()));
+        ItemStack resultItemStack = CrusherRegistry.createItemsForBlock(Block.getBlockFromItem(inputItemStack.getItem()), inputItemStack.getMetadata());
         if (!outputItemStack.isItemEqual(resultItemStack)) {
             return false;
         }
@@ -173,7 +173,7 @@ public class TileEntityCrusher extends TileEntityInventory implements ITickable 
         }
 
         Block inputBlock = Block.getBlockFromItem(inputItem);
-        ItemStack resultItemStack = CrusherRegistry.createItemsForBlock(inputBlock);
+        ItemStack resultItemStack = CrusherRegistry.createItemsForBlock(inputBlock, inputItemStack.getMetadata());
         return resultItemStack != null;
     }
 
