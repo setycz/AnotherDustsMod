@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.world.World;
 
@@ -19,6 +20,10 @@ import net.minecraft.world.World;
  */
 public class TileEntityCrusher extends TileEntityInventory implements ITickable {
     public static final int NEEDED_PROGRESS = 200;
+    private static final int inputStackIndex = 0;
+    private static final int fuelStackIndex = 1;
+    private static final int outputStackIndex = 2;
+
     private int energy;
     private int energyCapacity;
     private int progress;
@@ -28,13 +33,26 @@ public class TileEntityCrusher extends TileEntityInventory implements ITickable 
     }
 
     @Override
-    public void setPos(BlockPos posIn) {
-        super.setPos(posIn);
+    public int[] getSlotsForFace(EnumFacing side) {
+        switch (side) {
+            case UP:
+                return new int[] { inputStackIndex };
+            case DOWN:
+                return new int[] { outputStackIndex };
+            default:
+                return new int[] { fuelStackIndex };
+        }
     }
 
-    private final int inputStackIndex = 0;
-    private final int fuelStackIndex = 1;
-    private final int outputStackIndex = 2;
+    @Override
+    public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
+        return isItemValidForSlot(index, itemStackIn);
+    }
+
+    @Override
+    public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+        return true;
+    }
 
     @Override
     public Container createContainer(InventoryPlayer inventoryplayer, World world, BlockPos pos) {

@@ -5,20 +5,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 /**
  * Created by setyc on 29.01.2016.
  */
-public abstract class TileEntityInventory extends TileEntity implements IInventory, IInventoryGui {
+public abstract class TileEntityInventory extends TileEntity implements ISidedInventory, IInventoryGui {
 
     ItemStack[] inventory;
     String inventoryTitle;
@@ -202,5 +200,20 @@ public abstract class TileEntityInventory extends TileEntity implements IInvento
         if(this.hasCustomName()) {
             compound.setString("CustomName", this.inventoryTitle);
         }
+    }
+
+    @Override
+    public int[] getSlotsForFace(EnumFacing side) {
+        return new int[0];
+    }
+
+    @Override
+    public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
+        return false;
+    }
+
+    @Override
+    public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+        return false;
     }
 }
