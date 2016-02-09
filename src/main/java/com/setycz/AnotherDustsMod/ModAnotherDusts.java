@@ -83,11 +83,11 @@ public class ModAnotherDusts {
         CrusherRegistry.registerRecipe(Blocks.iron_ore, 0, iron_dust, 0, 2);
         CrusherRegistry.registerRecipe(Blocks.gold_ore, 0, gold_dust, 0, 2);
         CrusherRegistry.registerRecipe(Blocks.coal_ore, 0, Items.coal, 0, 2);
-        CrusherRegistry.registerRecipe(Blocks.lapis_ore, 0, Items.dye, EnumDyeColor.BLUE.getDyeDamage(), 9);
+        CrusherRegistry.registerRecipe(Blocks.lapis_ore, 0, Items.dye, EnumDyeColor.BLUE.getDyeDamage(), 16);
         CrusherRegistry.registerRecipe(Blocks.diamond_ore, 0, Items.diamond, 0, 2);
         CrusherRegistry.registerRecipe(Blocks.emerald_ore, 0, Items.emerald, 0, 2);
         CrusherRegistry.registerRecipe(Blocks.quartz_ore, 0, Items.quartz, 0, 2);
-        CrusherRegistry.registerRecipe(Blocks.redstone_ore, 0, Items.redstone, 0, 6);
+        CrusherRegistry.registerRecipe(Blocks.redstone_ore, 0, Items.redstone, 0, 5);
 
         registerTConstruct(event);
     }
