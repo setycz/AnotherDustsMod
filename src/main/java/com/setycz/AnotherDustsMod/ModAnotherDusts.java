@@ -69,8 +69,8 @@ public class ModAnotherDusts {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         log.info("Crushing vanila resources.");
-        registerDust(event, iron_dust, Items.iron_ingot, 0);
-        registerDust(event, gold_dust, Items.gold_ingot, 0);
+        registerDust(event, iron_dust, Items.iron_ingot, 0, 0.7F);
+        registerDust(event, gold_dust, Items.gold_ingot, 0, 1.0F);
 
         registerBlock(event, crusher);
         registerBlock(event, crusher_on);
@@ -101,11 +101,11 @@ public class ModAnotherDusts {
         Block tOre = GameRegistry.findBlock(TCONSTRUCT, "ore");
 
         Item cobalt_dust = new ItemDust().setColor(2306186).setUnlocalizedName("cobalt_dust").setCreativeTab(tab);
-        registerDust(event, cobalt_dust, tIngots, 0);
+        registerDust(event, cobalt_dust, tIngots, 0, 1.0F);
         CrusherRegistry.registerRecipe(tOre, 0, cobalt_dust, 0, 2);
 
         Item ardite_dust = new ItemDust().setColor(11019543).setUnlocalizedName("ardite_dust").setCreativeTab(tab);
-        registerDust(event, ardite_dust, tIngots, 1);
+        registerDust(event, ardite_dust, tIngots, 1, 1.0F);
         CrusherRegistry.registerRecipe(tOre, 1, ardite_dust, 0, 2);
 
         try {
@@ -126,9 +126,9 @@ public class ModAnotherDusts {
 
     }
 
-    private void registerDust(FMLInitializationEvent event, Item dust, Item ingot, int ingotMeta) {
+    private void registerDust(FMLInitializationEvent event, Item dust, Item ingot, int ingotMeta, float experience) {
         registerItem(event, dust);
-        GameRegistry.addSmelting(dust, new ItemStack(ingot, 1, ingotMeta), 1f);
+        GameRegistry.addSmelting(dust, new ItemStack(ingot, 1, ingotMeta), experience);
         OreDictionary.registerOre(getItemName(dust), dust);
     }
 
