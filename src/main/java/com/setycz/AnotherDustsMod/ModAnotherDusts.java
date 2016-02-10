@@ -6,6 +6,7 @@ import com.setycz.AnotherDustsMod.Crusher.CrusherRegistry;
 import com.setycz.AnotherDustsMod.Crusher.TileEntityCrusher;
 import com.setycz.AnotherDustsMod.Dust.ItemDust;
 import com.setycz.AnotherDustsMod.InventoryBlock.TileEntityGuiHandler;
+import moze_intel.projecte.api.ProjectEAPI;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -42,7 +43,7 @@ import java.lang.reflect.Method;
 )
 public class ModAnotherDusts {
     public static final String MODID = "anotherdusts";
-    public static final String VERSION = "1.3";
+    public static final String VERSION = "1.4";
     public static final String MODNAME = "Another Dusts";
     public static final String TCONSTRUCT = "tconstruct";
 
@@ -69,8 +70,8 @@ public class ModAnotherDusts {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         log.info("Crushing vanila resources.");
-        registerDust(event, iron_dust, Items.iron_ingot, 0, 0.7F);
-        registerDust(event, gold_dust, Items.gold_ingot, 0, 1.0F);
+        registerDust(event, iron_dust, Items.iron_ingot, 0, 0.7F, 256);
+        registerDust(event, gold_dust, Items.gold_ingot, 0, 1.0F, 2048);
 
         registerBlock(event, crusher);
         registerBlock(event, crusher_on);
@@ -101,11 +102,11 @@ public class ModAnotherDusts {
         Block tOre = GameRegistry.findBlock(TCONSTRUCT, "ore");
 
         Item cobalt_dust = new ItemDust().setColor(2306186).setUnlocalizedName("cobalt_dust").setCreativeTab(tab);
-        registerDust(event, cobalt_dust, tIngots, 0, 1.0F);
+        registerDust(event, cobalt_dust, tIngots, 0, 1.0F, 1024);
         CrusherRegistry.registerRecipe(tOre, 0, cobalt_dust, 0, 2);
 
         Item ardite_dust = new ItemDust().setColor(11019543).setUnlocalizedName("ardite_dust").setCreativeTab(tab);
-        registerDust(event, ardite_dust, tIngots, 1, 1.0F);
+        registerDust(event, ardite_dust, tIngots, 1, 1.0F, 1024);
         CrusherRegistry.registerRecipe(tOre, 1, ardite_dust, 0, 2);
 
         try {
@@ -126,10 +127,14 @@ public class ModAnotherDusts {
 
     }
 
-    private void registerDust(FMLInitializationEvent event, Item dust, Item ingot, int ingotMeta, float experience) {
+    private void registerDust(FMLInitializationEvent event, Item dust, Item ingot, int ingotMeta, float experience, int emc) {
         registerItem(event, dust);
         GameRegistry.addSmelting(dust, new ItemStack(ingot, 1, ingotMeta), experience);
         OreDictionary.registerOre(getItemName(dust), dust);
+
+        if (Loader.isModLoaded("ProjectE")) {
+            ProjectEAPI.getEMCProxy().registerCustomEMC(new ItemStack(dust), emc);
+        }
     }
 
     private void registerBlock(FMLInitializationEvent event, Block block) {

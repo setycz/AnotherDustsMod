@@ -20,7 +20,7 @@ plugins {
     id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
 */
-version = "1.8.9-1.3"
+version = "1.8.9-1.4"
 group= "com.setycz.AnotherDustsMod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "anotherdusts"
 
@@ -68,6 +68,8 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     deobfCompile "mezz.jei:jei_1.8.9:2.25.7.145"
+    //compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile files('libs/ProjectE-1.8.9-PE1.1.3.jar')
 }
 
 processResources
