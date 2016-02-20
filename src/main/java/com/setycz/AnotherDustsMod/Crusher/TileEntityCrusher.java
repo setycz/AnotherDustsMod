@@ -14,6 +14,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Created by setyc on 27.01.2016.
@@ -60,6 +62,7 @@ public class TileEntityCrusher extends TileEntityInventory implements ITickable 
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiContainer createGui(InventoryPlayer inventoryplayer, World world, BlockPos pos) {
         return new GuiCrusher(inventoryplayer, this);
     }
