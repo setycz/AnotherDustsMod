@@ -14,31 +14,15 @@ import net.minecraft.item.ItemStack;
 public class AnotherDustsJEIPlugin implements IModPlugin{
     // inspired by https://github.com/mezz/JustEnoughItems
 
-    private IJeiHelpers jeiHelpers;
-
     @Override
     public void register(IModRegistry registry) {
+        IJeiHelpers jeiHelpers = registry.getJeiHelpers();
         IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
         registry.addRecipeCategories(new CrusherRecipeCategory(guiHelper));
         registry.addRecipeHandlers(new CrusherRecipeHandler());
         registry.addRecipes(CrusherRecipeMaker.getRecipes(jeiHelpers));
 
         jeiHelpers.getItemBlacklist().addItemToBlacklist(new ItemStack(ModAnotherDusts.crusher_on));
-    }
-
-    @Override
-    public void onJeiHelpersAvailable(IJeiHelpers jeiHelpers) {
-        this.jeiHelpers = jeiHelpers;
-    }
-
-    @Override
-    public void onItemRegistryAvailable(IItemRegistry itemRegistry) {
-
-    }
-
-    @Override
-    public void onRecipeRegistryAvailable(IRecipeRegistry recipeRegistry) {
-
     }
 
     @Override

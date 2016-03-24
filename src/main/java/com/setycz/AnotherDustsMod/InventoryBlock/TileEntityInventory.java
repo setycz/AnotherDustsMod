@@ -11,6 +11,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 /**
@@ -155,11 +159,11 @@ public abstract class TileEntityInventory extends TileEntity implements ISidedIn
     }
 
     @Override
-    public IChatComponent getDisplayName() {
+    public ITextComponent getDisplayName() {
         if(hasCustomName()) {
-            return new ChatComponentText(getName());
+            return new TextComponentString(getName());
         }
-        return new ChatComponentTranslation(getName());
+        return new TextComponentTranslation(getName());
     }
 
     @Override

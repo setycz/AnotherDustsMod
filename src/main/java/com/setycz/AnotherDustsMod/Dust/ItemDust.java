@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
  * Created by setyc on 31.01.2016.
  */
 public class ItemDust extends Item {
-
     private int color = 16777215;
 
     public ItemDust setColor(int color) {
@@ -15,8 +14,7 @@ public class ItemDust extends Item {
         return this;
     }
 
-    @Override
-    public int getColorFromItemStack(ItemStack stack, int renderPass) {
-        return this.color;
+    public int getColor() {
+        return color;
     }
 }

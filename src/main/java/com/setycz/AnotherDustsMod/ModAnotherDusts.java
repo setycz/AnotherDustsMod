@@ -4,12 +4,13 @@ import com.setycz.AnotherDustsMod.Crusher.BlockCrusher;
 import com.setycz.AnotherDustsMod.Crusher.BlockCrusherOn;
 import com.setycz.AnotherDustsMod.Crusher.CrusherRegistry;
 import com.setycz.AnotherDustsMod.Crusher.TileEntityCrusher;
+import com.setycz.AnotherDustsMod.Dust.ItemColorDust;
 import com.setycz.AnotherDustsMod.Dust.ItemDust;
 import com.setycz.AnotherDustsMod.InventoryBlock.TileEntityGuiHandler;
-import moze_intel.projecte.api.ProjectEAPI;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
@@ -61,6 +62,7 @@ public class ModAnotherDusts {
     public final static Block crusher_on = new BlockCrusherOn().setUnlocalizedName("crusher_on").setLightLevel(0.875F);
 
     public static TileEntityGuiHandler guiHandler = new TileEntityGuiHandler();
+    private final ItemColorDust itemColorDust = new ItemColorDust();
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -129,11 +131,16 @@ public class ModAnotherDusts {
 
     private void registerDust(FMLInitializationEvent event, Item dust, Item ingot, int ingotMeta, float experience, int emc) {
         registerItem(event, dust);
+        if (event.getSide() == Side.CLIENT) {
+            Minecraft.getMinecraft().getItemColors().registerItemColorHandler(itemColorDust, dust);
+        }
+
         GameRegistry.addSmelting(dust, new ItemStack(ingot, 1, ingotMeta), experience);
         OreDictionary.registerOre(getItemName(dust), dust);
 
         if (Loader.isModLoaded("ProjectE")) {
-            ProjectEAPI.getEMCProxy().registerCustomEMC(new ItemStack(dust), emc);
+            // ProjectE not ported to 1.9 yet
+            //ProjectEAPI.getEMCProxy().registerCustomEMC(new ItemStack(dust), emc);
         }
     }
 
