@@ -1,13 +1,11 @@
 package com.setycz.AnotherDustsMod.Crusher;
 
-import gnu.trove.map.hash.THashMap;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by setyc on 30.01.2016.

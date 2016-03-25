@@ -1,7 +1,6 @@
 package com.setycz.AnotherDustsMod.Dust;
 
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 
 /**
  * Created by setyc on 31.01.2016.

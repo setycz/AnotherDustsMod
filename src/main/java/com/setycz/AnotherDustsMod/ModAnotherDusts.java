@@ -4,13 +4,9 @@ import com.setycz.AnotherDustsMod.Crusher.BlockCrusher;
 import com.setycz.AnotherDustsMod.Crusher.BlockCrusherOn;
 import com.setycz.AnotherDustsMod.Crusher.CrusherRegistry;
 import com.setycz.AnotherDustsMod.Crusher.TileEntityCrusher;
-import com.setycz.AnotherDustsMod.Dust.ItemColorDust;
 import com.setycz.AnotherDustsMod.Dust.ItemDust;
 import com.setycz.AnotherDustsMod.InventoryBlock.TileEntityGuiHandler;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
@@ -21,13 +17,12 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,7 +35,8 @@ import java.lang.reflect.Method;
         modid = ModAnotherDusts.MODID,
         name = ModAnotherDusts.MODNAME,
         version = ModAnotherDusts.VERSION,
-        acceptedMinecraftVersions = "1.8.9"
+        acceptedMinecraftVersions = "1.9",
+        dependencies = "required-after:Forge@[12.16.0.1770,);"
 )
 public class ModAnotherDusts {
     public static final String MODID = "anotherdusts";
@@ -62,7 +58,9 @@ public class ModAnotherDusts {
     public final static Block crusher_on = new BlockCrusherOn().setUnlocalizedName("crusher_on").setLightLevel(0.875F);
 
     public static TileEntityGuiHandler guiHandler = new TileEntityGuiHandler();
-    private final ItemColorDust itemColorDust = new ItemColorDust();
+
+    @SidedProxy(clientSide = "com.setycz.AnotherDustsMod.ClientProxy", serverSide = "com.setycz.AnotherDustsMod.CommonProxy")
+    public static CommonProxy proxy;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -72,11 +70,11 @@ public class ModAnotherDusts {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         log.info("Crushing vanila resources.");
-        registerDust(event, iron_dust, Items.iron_ingot, 0, 0.7F, 256);
-        registerDust(event, gold_dust, Items.gold_ingot, 0, 1.0F, 2048);
+        proxy.registerDust(event, iron_dust, Items.iron_ingot, 0, 0.7F, 256);
+        proxy.registerDust(event, gold_dust, Items.gold_ingot, 0, 1.0F, 2048);
 
-        registerBlock(event, crusher);
-        registerBlock(event, crusher_on);
+        proxy.registerBlock(event, crusher);
+        proxy.registerBlock(event, crusher_on);
         GameRegistry.registerTileEntity(TileEntityCrusher.class, "anotherDustsCrusher");
         GameRegistry.addRecipe(
                 new ItemStack(crusher),
@@ -104,11 +102,11 @@ public class ModAnotherDusts {
         Block tOre = GameRegistry.findBlock(TCONSTRUCT, "ore");
 
         Item cobalt_dust = new ItemDust().setColor(2306186).setUnlocalizedName("cobalt_dust").setCreativeTab(tab);
-        registerDust(event, cobalt_dust, tIngots, 0, 1.0F, 1024);
+        proxy.registerDust(event, cobalt_dust, tIngots, 0, 1.0F, 1024);
         CrusherRegistry.registerRecipe(tOre, 0, cobalt_dust, 0, 2);
 
         Item ardite_dust = new ItemDust().setColor(11019543).setUnlocalizedName("ardite_dust").setCreativeTab(tab);
-        registerDust(event, ardite_dust, tIngots, 1, 1.0F, 1024);
+        proxy.registerDust(event, ardite_dust, tIngots, 1, 1.0F, 1024);
         CrusherRegistry.registerRecipe(tOre, 1, ardite_dust, 0, 2);
 
         try {
@@ -127,41 +125,6 @@ public class ModAnotherDusts {
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
 
-    }
-
-    private void registerDust(FMLInitializationEvent event, Item dust, Item ingot, int ingotMeta, float experience, int emc) {
-        registerItem(event, dust);
-        if (event.getSide() == Side.CLIENT) {
-            Minecraft.getMinecraft().getItemColors().registerItemColorHandler(itemColorDust, dust);
-        }
-
-        GameRegistry.addSmelting(dust, new ItemStack(ingot, 1, ingotMeta), experience);
-        OreDictionary.registerOre(getItemName(dust), dust);
-
-        if (Loader.isModLoaded("ProjectE")) {
-            // ProjectE not ported to 1.9 yet
-            //ProjectEAPI.getEMCProxy().registerCustomEMC(new ItemStack(dust), emc);
-        }
-    }
-
-    private void registerBlock(FMLInitializationEvent event, Block block) {
-        GameRegistry.registerBlock(block, block.getUnlocalizedName().substring(5));
-        if (event.getSide() == Side.CLIENT) {
-            Item crusherItem = Item.getItemFromBlock(block);
-            registerItemModel(crusherItem);
-        }
-    }
-
-    private void registerItem(FMLInitializationEvent event, Item item) {
-        GameRegistry.registerItem(item, getItemName(item));
-        if (event.getSide() == Side.CLIENT) {
-            registerItemModel(item);
-        }
-    }
-
-    private void registerItemModel(Item item) {
-        ModelResourceLocation resourceLocation = new ModelResourceLocation(MODID + ":" + getItemName(item), "inventory");
-        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, resourceLocation);
     }
 
     private String getItemName(Item dust) {
