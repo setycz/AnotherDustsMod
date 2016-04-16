@@ -36,11 +36,11 @@ import java.lang.reflect.Method;
         name = ModAnotherDusts.MODNAME,
         version = ModAnotherDusts.VERSION,
         acceptedMinecraftVersions = "1.9",
-        dependencies = "required-after:Forge@[12.16.0.1826,);"
+        dependencies = "required-after:Forge@[12.16.0.1865,);"
 )
 public class ModAnotherDusts {
     public static final String MODID = "anotherdusts";
-    public static final String VERSION = "2.0";
+    public static final String VERSION = "2.0.1";
     public static final String MODNAME = "Another Dusts";
     public static final String TCONSTRUCT = "tconstruct";
 
